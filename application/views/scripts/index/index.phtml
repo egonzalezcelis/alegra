@@ -1,0 +1,58 @@
+<?php
+$this->title = "Listado de contactos";
+$this->headTitle($this->title);
+?>
+<html>
+	<div style="margin-bottom: 10px; background-color: white;box-shadow: 0 0 15px #ddd;">                   
+                    <img src="<?php echo $this->baseUrl().'/images/logo_alegra.png' ?>" style="width: 178px" />
+        </div>
+        <div class="section-wrapper">
+                <div class="header">
+                        <div class="title"><h1>Contactos</h1></div>
+                        <div class="actions"><a href="#" onclick="newCnt()" class="button green"><span class="plus"></span>Nuevo contacto</a>
+                        <a style="margin-left:20px" href="#" onclick="refresh()">Actualizar lista</a>
+                        <style>.section-wrapper .header { position: relative }</style>
+
+                        </div>
+                </div>
+                <div id="userList"></div>
+        </div>
+   
+	<script type="text/javascript">                
+                        Ext.application({
+                            name: 'alegra',
+                            appFolder: 'js/app',
+                            controllers: [
+                                'contacts'
+                            ],
+                            launch: function() {
+                                    loadCnt();
+                            }
+                        });
+                        function loadCnt(){
+                            Ext.get("userList").update("");
+                                Ext.create('Ext.Panel', {
+                                    layout: 'fit',
+                                    renderTo:"userList",
+                                    border: true,
+                                    modal :false,
+                                    frame :true,
+                                    //height:200,
+                                    items: [
+                                        {
+                                            xtype: 'cntlist'
+                                        }
+                                    ]
+                                });
+                                 
+                        }
+                        
+                        function refresh(){
+                             Ext.app.Application.instance.getController("contacts").loadStore();
+                        }
+                        
+                        function newCnt(){
+                           Ext.app.Application.instance.getController("contacts").newCnt();
+                        }
+	</script>
+</html>
